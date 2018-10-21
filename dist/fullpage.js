@@ -3074,7 +3074,7 @@
             [TABLE_CELL_SEL, SLIDES_CONTAINER_SEL,SLIDES_WRAPPER_SEL].forEach(function(selector){
                 $(selector, container).forEach(function(item){
                     //unwrap not being use in case there's no child element inside and its just text
-                    item.outerHTML = item.innerHTML;
+                    unwrap(item);
                 });
             });
 
@@ -3590,6 +3590,23 @@
     }
 
     /**
+    * Usage:
+    * unwrap(document.querySelector('#pepe'));
+    * unwrap(element);
+    *
+    * https://jsfiddle.net/szjt0hxq/1/
+    *
+    */
+    function unwrap(wrapper) {
+        var wrapperContent = document.createDocumentFragment();
+        while (wrapper.firstChild) {
+            wrapperContent.appendChild(wrapper.firstChild);
+        }
+
+        wrapper.parentNode.replaceChild(wrapperContent, wrapper);
+    }
+
+    /**
     * http://stackoverflow.com/questions/22100853/dom-pure-javascript-solution-to-jquery-closest-implementation
     * Returns the element or `false` if there's none
     */
@@ -3822,6 +3839,7 @@
         wrap: wrap,
         wrapAll: wrapAll,
         wrapInner: wrapInner,
+        unwrap: unwrap,
         closest: closest,
         after: after,
         before: before,
